@@ -1,13 +1,128 @@
-<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Home</title><link rel='stylesheet' href='style.css'></head><body>
-<header>
-  <h1>Fashion Store</h1>
-  <nav><a href="login.html">Login</a> | <a href="signup.html">Sign Up</a> | <a href="cart.html">Cart</a></nav>
-</header>
-<main>
-  <h2>New Arrivals</h2>
-  <section class="grid">
-    <div class="product-card"><img src="https://images.unsplash.com/photo-1618354691390-01ccf7a6b6ba?auto=format&fit=crop&w=400&q=80"><p>Black Hoodie</p><p>$79.99</p></div><div class="product-card"><img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80"><p>White T-Shirt</p><p>$49.99</p></div><div class="product-card"><img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=400&q=80"><p>Green Jacket</p><p>$119.99</p></div>
-  </section>
-</main>
-<footer><p>&copy; 2025 Fashion Store</p></footer>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urban Streetwear Apparel</title>
+  <!-- Google Fonts: Open Sans for a more subtle look -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Basic styling for the page */
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    main {
+      padding: 20px;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .product-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 10px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .product-card img {
+      width: 100%;
+      height: 220px; /* stała wysokość dla spójności */
+      object-fit: cover; /* obraz wypełnia cały obszar bez zniekształceń */
+    }
+    footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Urban Streetwear Apparel</h1>
+    <nav>
+      <a href="login.html">Login</a> |
+      <a href="signup.html">Sign Up</a> |
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+  <main>
+    <h2>New Arrivals</h2>
+    <section class="grid">
+      <!-- Black Hoodie -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,hoodie,black" alt="Black Hoodie">
+        <p>Black Hoodie</p>
+        <p>$79.99</p>
+      </div>
+      <!-- White T-Shirt -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,tshirt,white" alt="White T-Shirt">
+        <p>White T-Shirt</p>
+        <p>$49.99</p>
+      </div>
+      <!-- Green Jacket -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,jacket,green" alt="Green Jacket">
+        <p>Green Jacket</p>
+        <p>$119.99</p>
+      </div>
+      <!-- Beige Coat -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,coat,beige" alt="Beige Coat">
+        <p>Beige Coat</p>
+        <p>$149.99</p>
+      </div>
+      <!-- Blue Jeans -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,jeans,blue" alt="Blue Jeans">
+        <p>Blue Jeans</p>
+        <p>$89.99</p>
+      </div>
+      <!-- Grey Sweatshirt -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,sweatshirt,grey" alt="Grey Sweatshirt">
+        <p>Grey Sweatshirt</p>
+        <p>$59.99</p>
+      </div>
+      <!-- Red Hoodie -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,hoodie,red" alt="Red Hoodie">
+        <p>Red Hoodie</p>
+        <p>$84.99</p>
+      </div>
+      <!-- Black Cargo Pants -->
+      <div class="product-card">
+        <img src="https://source.unsplash.com/400x400/?streetwear,cargo,black" alt="Black Cargo Pants">
+        <p>Black Cargo Pants</p>
+        <p>$99.99</p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Urban Streetwear Apparel</p>
+  </footer>
+</body>
+</html>
