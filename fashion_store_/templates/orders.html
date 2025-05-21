@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orders</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      position: relative;
+      background: #7e1616;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    header button.back {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0.4rem 1rem;
+      background: #000;
+      border: none;
+      cursor: pointer;
+    }
+    header button.view-orders {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0.4rem 1rem;
+      background: #000;
+      border: none;
+      cursor: pointer;
+    }
+    button {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #000;
+    }
+    .order {
+      background: #fff;
+      padding: 1rem;
+      margin: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .order h3 {
+      margin-top: 0;
+    }
+    .order-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0;
+    }
+    .order-item img {
+      height: 80px;
+    }
+    .order-item span {
+      font-size: 1rem;
+    }
+    #orders-container {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back" onclick="location.href='index.html'">Back</button>
+    <h1>Your Orders</h1>
+    <button class="view-orders" onclick="location.href='orders.html'">View Orders</button>
+  </header>
+  
+  <main id="orders-container"></main>
+  
+  <script>
+    // Funkcja pomocnicza – parsuje cenę (usuwając znak "$")
+    function parsePrice(price) {
+      if (typeof price === 'string') {
+        return parseFloat(price.replace('$', ''));
+      }
+      return price;
+    }
+    
+    const ordersContainer = document.getElementById('orders-container');
+    const loggedUser = localStorage.getItem('loggedUser');
+    
+    if (!loggedUser) {
+      ordersContainer.innerHTML = '<p>You must be logged in to view your orders. <a href="login.html">Login</a></p>';
+    } else {
+      const ordersKey = "orders_" + loggedUser;
+      const orders = JSON.parse(localStorage.getItem(ordersKey)) || [];
+  
+      if (orders.length === 0) {
+        ordersContainer.innerHTML = '<p>No orders made.</p>';
+      } else {
+        // Sprawdzamy, czy mamy parametr view=latest
+        const params = new URLSearchParams(window.location.search);
+        const view = params.get('view');
+        let ordersToRender = orders;
+  
+        if (view === 'latest') {
+          ordersToRender = [orders[orders.length - 1]];
+          const notice = document.createElement('p');
+          notice.textContent = 'Showing your most recent order. To see all orders, click "View Orders".';
+          ordersContainer.appendChild(notice);
+        }
+  
+        ordersToRender.forEach((order) => {
+          const section = document.createElement('section');
+          section.className = 'order';
+          section.innerHTML = `<h3>Order – ${order.date}</h3>`;
+  
+          order.items.forEach(item => {
+            const priceNumber = parsePrice(item.price);
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'order-item';
+            itemDiv.innerHTML = `
+              <img src="${item.image}" alt="${item.name}">
+              <span>${item.name} ${item.size ? "(" + item.size + ")" : ""} - $${priceNumber.toFixed(2)}</span>
+            `;
+            section.appendChild(itemDiv);
+          });
+  
+          ordersContainer.appendChild(section);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+

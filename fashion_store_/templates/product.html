@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .product-detail {
+      background: #fff;
+      color: #000;
+      margin: 40px auto;
+      max-width: 800px;
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .product-detail img {
+      width: 300px;
+      object-fit: cover;
+    }
+    .product-detail-info h2 {
+      margin: 0 0 10px;
+    }
+    .product-detail-info p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button onclick="location.href='index.html'">Back</button>
+    <h1>Product Detail</h1>
+  </header>
+
+  <main id="product-container"></main>
+
+  <script src="product-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Urban Streetwear Apparel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: #241717;
+      color: #241717;
+    }
+    header {
+      background: #241717;
+      color: #fffafa;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    .hero {
+      background-image: url('Images/LOUD.png');
+      background-size: cover;
+      background-position: center;
+      height: 700px;
+      width: 100%;
+    }
+    main {
+      padding: 40px 20px;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .product-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 10px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: scale(1.05);
+    }
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+    .product-card p:nth-child(2) {
+      font-weight: bold;
+      color: #000;
+      font-size: 18px;
+    }
+    .product-card button {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background-color: #241717;
+      color: #fffafa;
+      border: none;
+      cursor: pointer;
+    }
+    /* Inline Quick Add container */
+    .quick-add-container {
+      display: none;
+      margin-top: 8px;
+      border-top: 1px dashed #aaa;
+      padding-top: 8px;
+    }
+    .quick-add-container select {
+      margin-right: 5px;
+      padding: 4px;
+    }
+    .quick-add-container button {
+      padding: 4px 8px;
+      background-color: #241717;
+      color: #fffafa;
+      border: none;
+      cursor: pointer;
+    }
+    footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      margin-top: 40px;
+    }
+    /* Full Product Details Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 5px;
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #000;
+      text-align: center;
+    }
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-main-image {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .modal-main-image img {
+      max-width: 100%;
+      max-height: 400px;
+    }
+    .modal-thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .modal-thumbnails img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .modal-thumbnails img:hover {
+      border-color: #241717;
+    }
+    .modal-content label {
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    .modal-content select {
+      padding: 5px;
+      margin-bottom: 15px;
+    }
+    .modal-content button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #241717;
+      color: #fffafa;
+      border: none;
+      cursor: pointer;
+    }
+    /* Confirmation Modal - stylowy, przyjazny komunikat */
+    .confirmation-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1100;
+    }
+    .confirmation-content {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 5px;
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .confirmation-content p {
+      margin: 0 0 20px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .confirmation-content button {
+      padding: 8px 12px;
+      margin: 0 10px;
+      background-color: #241717;
+      color: #fffafa;
+      border: none;
+      cursor: pointer;
+    }
+    .confirmation-content button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Urban Streetwear Apparel</h1>
+    <nav>
+      <a href="login.html">Login</a> |
+      <a href="signup.html">Sign Up</a> |
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <section class="hero"></section>
+
+  <main>
+    <h2>New Arrivals</h2>
+    <section class="grid">
+      <!-- Black Hoodie -->
+      <div class="product-card">
+        <img src="images/black hoddie.png" alt="Black Hoodie" onclick="showProductDetails('Black Hoodie')">
+        <p>Black Hoodie</p>
+        <p>$79.99</p>
+        <button onclick="toggleQuickAdd(this, 'Black Hoodie')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'Black Hoodie')">Confirm</button>
+        </div>
+      </div>
+      <!-- White T-Shirt -->
+      <div class="product-card">
+        <img src="images/white tshirt.png" alt="White T-Shirt" onclick="showProductDetails('White T-Shirt')">
+        <p>White T-Shirt</p>
+        <p>$49.99</p>
+        <button onclick="toggleQuickAdd(this, 'White T-Shirt')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'White T-Shirt')">Confirm</button>
+        </div>
+      </div>
+      <!-- Green Jacket -->
+      <div class="product-card">
+        <img src="images/green.png" alt="Green Jacket" onclick="showProductDetails('Green Jacket')">
+        <p>Green Jacket</p>
+        <p>$119.99</p>
+        <button onclick="toggleQuickAdd(this, 'Green Jacket')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'Green Jacket')">Confirm</button>
+        </div>
+      </div>
+      <!-- Beige Coat -->
+      <div class="product-card">
+        <img src="images/beige.png" alt="Beige Coat" onclick="showProductDetails('Beige Coat')">
+        <p>Beige Coat</p>
+        <p>$149.99</p>
+        <button onclick="toggleQuickAdd(this, 'Beige Coat')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'Beige Coat')">Confirm</button>
+        </div>
+      </div>
+      <!-- Blue Jeans -->
+      <div class="product-card">
+        <img src="images/blue.png" alt="Blue Jeans" onclick="showProductDetails('Blue Jeans')">
+        <p>Blue Jeans</p>
+        <p>$89.99</p>
+        <button onclick="toggleQuickAdd(this, 'Blue Jeans')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'Blue Jeans')">Confirm</button>
+        </div>
+      </div>
+      <!-- Grey Sweatshirt -->
+      <div class="product-card">
+        <img src="images/grey.png" alt="Grey Sweatshirt" onclick="showProductDetails('Grey Sweatshirt')">
+        <p>Grey Sweatshirt</p>
+        <p>$59.99</p>
+        <button onclick="toggleQuickAdd(this, 'Grey Sweatshirt')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'Grey Sweatshirt')">Confirm</button>
+        </div>
+      </div>
+      <!-- Red Hoodie -->
+      <div class="product-card">
+        <img src="images/red hoodie.png" alt="Red Hoodie" onclick="showProductDetails('Red Hoodie')">
+        <p>Red Hoodie</p>
+        <p>$84.99</p>
+        <button onclick="toggleQuickAdd(this, 'Red Hoodie')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'Red Hoodie')">Confirm</button>
+        </div>
+      </div>
+      <!-- Black Cargo Pants -->
+      <div class="product-card">
+        <img src="images/cargo.png" alt="Black Cargo Pants" onclick="showProductDetails('Black Cargo Pants')">
+        <p>Black Cargo Pants</p>
+        <p>$99.99</p>
+        <button onclick="toggleQuickAdd(this, 'Black Cargo Pants')">Add to cart</button>
+        <div class="quick-add-container">
+          <label>Select Size:</label>
+          <select class="quick-size-select">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <button onclick="confirmQuickAdd(this, 'Black Cargo Pants')">Confirm</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Full Product Details Modal -->
+  <div id="product-modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal(event)">&times;</span>
+      <h2 id="modal-product-name"></h2>
+      <div id="modal-main-image" class="modal-main-image"></div>
+      <div id="modal-thumbnail-container" class="modal-thumbnails"></div>
+      <p id="modal-product-description"></p>
+      <p id="modal-product-materials"></p>
+      <p id="modal-product-composition"></p>
+      <p id="modal-product-price"></p>
+      <label for="size-select-full">Select Size:</label>
+      <select id="size-select-full">
+        <option value="S">S</option>
+        <option value="M" selected>M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+      <br>
+      <button onclick="addFullToCart()">Add to cart</button>
+    </div>
+  </div>
+  
+  <!-- Confirmation Modal -->
+  <div id="confirmation-modal" class="confirmation-modal">
+    <div class="confirmation-content">
+      <p id="confirmation-text">Product added to cart. Continue browsing or go to cart?</p>
+      <button onclick="continueBrowsing()">Continue Browsing</button>
+      <button onclick="goToCart()">Go to Cart</button>
+    </div>
+  </div>
+  
+  <script>
+    // Global variable storing the currently selected product (for full details modal)
+    let currentProduct = "";
+    
+    // Product details object with complete data for all clothing items
+    const productDetails = {
+      "Black Hoodie": {
+        name: "Black Hoodie",
+        description: "Stylish urban hoodie, perfect for everyday streetwear.",
+        materials: "Made of a high-quality blend of cotton and polyester with soft lining.",
+        composition: "80% Cotton, 20% Polyester",
+        price: "$79.99",
+        images: [
+          "images/black hoddie.png",
+          "images/black 2.png",
+          "images/black 3.png",
+          "images/black 4.png"
+        ]
+      },
+      "White T-Shirt": {
+        name: "White T-Shirt",
+        description: "Classic white t-shirt – a versatile wardrobe staple.",
+        materials: "100% premium cotton for comfort and breathability.",
+        composition: "100% Cotton",
+        price: "$49.99",
+        images: [
+          "images/white tshirt.png",
+          "images/white 1.png",
+          "images/white 2.png",
+          "images/white 3.png"
+        ]
+      },
+      "Green Jacket": {
+        name: "Green Jacket",
+        description: "A modern jacket combining functionality with urban style.",
+        materials: "Durable fabric blended with nylon, offering water resistance.",
+        composition: "90% Nylon, 10% Polyamide",
+        price: "$119.99",
+        images: [
+          "images/green.png",
+          "images/green 1.png",
+          "images/green 2.png",
+          "images/green 3.png"
+        ]
+      },
+      "Beige Coat": {
+        name: "Beige Coat",
+        description: "A stylish coat ideal for cooler evenings in the city.",
+        materials: "Blend of wool and polyester – warm yet lightweight.",
+        composition: "60% Wool, 40% Polyester",
+        price: "$149.99",
+        images: [
+          "images/beige.png",
+          "images/beige_side.png",
+          "images/beige_back.png",
+          "images/beige_detail.png"
+        ]
+      },
+      "Blue Jeans": {
+        name: "Blue Jeans",
+        description: "Classic jeans with a modern fit, perfect for any occasion.",
+        materials: "Genuine denim made from 100% cotton for durability and style.",
+        composition: "100% Cotton",
+        price: "$89.99",
+        images: [
+          "images/blue.png",
+          "images/blue_side.png",
+          "images/blue_back.png",
+          "images/blue_detail.png"
+        ]
+      },
+      "Grey Sweatshirt": {
+        name: "Grey Sweatshirt",
+        description: "A cozy sweatshirt that exudes urban casual style.",
+        materials: "Soft fleece cotton blend ensuring warmth and comfort.",
+        composition: "80% Cotton, 20% Polyester",
+        price: "$59.99",
+        images: [
+          "images/grey.png",
+          "images/grey 2.png",
+          "images/grey 3.png",
+          "images/grey 4.png"
+        ]
+      },
+      "Red Hoodie": {
+        name: "Red Hoodie",
+        description: "A bold red hoodie designed to make a statement.",
+        materials: "Durable blend of cotton and polyester with a vibrant color.",
+        composition: "85% Cotton, 15% Polyester",
+        price: "$84.99",
+        images: [
+          "images/red hoodie.png",
+          "images/red 1.png",
+          "images/red 2.png",
+          "images/red 3.png"
+        ]
+      },
+      "Black Cargo Pants": {
+        name: "Black Cargo Pants",
+        description: "Functional cargo pants perfect for urban adventures.",
+        materials: "Crafted from sturdy cotton twill with a bit of stretch.",
+        composition: "95% Cotton, 5% Elastane",
+        price: "$99.99",
+        images: [
+          "images/cargo.png",
+          "images/cargo_side.png",
+          "images/cargo_back.png",
+          "images/cargo_detail.png"
+        ]
+      }
+    };
+    
+    // Function to display full product details modal (triggered by clicking a product image)
+    function showProductDetails(productName) {
+      const details = productDetails[productName];
+      if (details) {
+        currentProduct = productName;
+        document.getElementById('modal-product-name').textContent = details.name;
+        document.getElementById('modal-product-description').textContent = details.description;
+        document.getElementById('modal-product-materials').textContent = details.materials;
+        document.getElementById('modal-product-composition').textContent = "Material Composition: " + details.composition;
+        document.getElementById('modal-product-price').textContent = "Price: " + details.price;
+        document.getElementById('size-select-full').value = "M";
+ 
+        const mainImageContainer = document.getElementById('modal-main-image');
+        const thumbnailContainer = document.getElementById('modal-thumbnail-container');
+        mainImageContainer.innerHTML = "";
+        thumbnailContainer.innerHTML = "";
+        if (details.images && Array.isArray(details.images)) {
+          const mainImg = document.createElement('img');
+          mainImg.src = details.images[0];
+          mainImageContainer.appendChild(mainImg);
+ 
+          details.images.forEach(function(imgSrc) {
+            const thumbImg = document.createElement('img');
+            thumbImg.src = imgSrc;
+            thumbImg.onclick = function() {
+              mainImg.src = imgSrc;
+            };
+            thumbnailContainer.appendChild(thumbImg);
+          });
+        }
+ 
+        document.getElementById('product-modal').style.display = "flex";
+      }
+    }
+    
+    // Function to add product to cart from the full details modal (using confirmation modal)
+    function addFullToCart() {
+      const selectedSize = document.getElementById('size-select-full').value;
+      const product = productDetails[currentProduct];
+      if (product) {
+        addProductToLocalCart({ 
+          name: product.name,
+          price: product.price,
+          image: product.images[0],
+          size: selectedSize 
+        });
+        closeModal({ target: document.getElementById('product-modal') });
+        showAddConfirmation(product.name);
+      }
+    }
+    
+    // Function for inline quick add confirmation
+    function confirmQuickAdd(btn, productName) {
+      const card = btn.closest('.product-card');
+      const sizeSelect = card.querySelector('.quick-size-select');
+      const selectedSize = sizeSelect.value;
+      const product = productDetails[productName];
+      if (product) {
+        addProductToLocalCart({ 
+          name: product.name,
+          price: product.price,
+          image: product.images[0],
+          size: selectedSize 
+        });
+        btn.parentElement.style.display = "none";
+        showAddConfirmation(product.name);
+      }
+    }
+    
+    // Helper function to add a product to local storage (cart)
+    function addProductToLocalCart(productObj) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(productObj);
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    
+    // Function to show the confirmation modal (stylowy, przyjazny komunikat)
+    function showAddConfirmation(productName) {
+      const confModal = document.getElementById('confirmation-modal');
+      const confText = document.getElementById('confirmation-text');
+      confText.textContent = productName + " has been added to the cart. Continue browsing or go to cart?";
+      confModal.style.display = "flex";
+  
+      // Automatyczne zamknięcie po 5 sekundach, jeśli użytkownik nic nie kliknie
+      setTimeout(() => {
+        if (confModal.style.display === "flex") {
+          confModal.style.display = "none";
+        }
+      }, 5000);
+    }
+  
+    function continueBrowsing() {
+      document.getElementById('confirmation-modal').style.display = "none";
+    }
+  
+    function goToCart() {
+      location.href = "cart.html";
+    }
+    
+    // Function to close full product modal
+    function closeModal(event) {
+      if (event.target.id === "product-modal" || event.target.className === "close-button") {
+        document.getElementById("product-modal").style.display = "none";
+      }
+    }
+    
+    // Inline Quick Add – toggle container
+    function toggleQuickAdd(btn, productName) {
+      const container = btn.nextElementSibling;
+      container.style.display = (container.style.display === "block") ? "none" : "block";
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

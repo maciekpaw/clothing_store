@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <style>
+    header {
+      position: relative;
+      background: #7e1616;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    header button {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0.4rem 1rem;
+      background: #000;
+      border: none;
+      cursor: pointer;
+    }
+    button {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    main {
+      padding: 2rem;
+      text-align: center;
+    }
+    form {
+      display: inline-block;
+      text-align: left;
+    }
+    label, input {
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button id="back-button">Back</button>
+    <h1>Login</h1>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p style="color:red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('login') }}" method="POST">
+      <label>Email</label>
+      <input type="email" name="email" required>
+      
+      <label>Password</label>
+      <input type="password" name="password" required>
+      
+      <button type="submit">Login</button>
+    </form>
+  </main>
+
+  <script>
+    // Przycisk "Back" odsyła do index
+    document.getElementById("back-button").addEventListener("click", function() {
+      window.location.href = "{{ url_for('index') }}";
+    });
+  </script>
+</body>
+</html>
+
+
+
+

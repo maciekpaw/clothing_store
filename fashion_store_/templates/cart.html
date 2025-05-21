@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* Ogólne style */
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      position: relative;
+      background: #7e1616;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    header button.back {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0.4rem 1rem;
+      background: #000;
+      border: none;
+      cursor: pointer;
+    }
+    header button.view-orders {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0.4rem 1rem;
+      background: #000;
+      border: none;
+      cursor: pointer;
+    }
+    /* Style koszyka */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #fff;
+      padding: 10px;
+      margin: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .cart-item img {
+      height: 100px;
+    }
+    button {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #000;
+    }
+    #cart-container {
+      padding: 20px;
+    }
+    .action-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    /* Confirmation Modal – komunikat */
+    .confirmation-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1100;
+    }
+    .confirmation-content {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 5px;
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .confirmation-content p {
+      margin: 0 0 20px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .confirmation-content button {
+      padding: 8px 12px;
+      margin: 0 10px;
+      background-color: #241717;
+      color: #fffafa;
+      border: none;
+      cursor: pointer;
+    }
+    .confirmation-content button:hover {
+      opacity: 0.9;
+    }
+    /* Modal wymagający logowania */
+    .login-required-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1200;
+    }
+    .login-required-content {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 5px;
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .login-required-content p {
+      margin: 0 0 20px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .login-required-content button {
+      padding: 8px 12px;
+      margin: 0 10px;
+      background-color: #241717;
+      color: #fffafa;
+      border: none;
+      cursor: pointer;
+    }
+    .login-required-content button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back" onclick="location.href='index.html'">Back</button>
+    <h1>Your Cart</h1>
+    <button class="view-orders" onclick="location.href='orders.html'">View Orders</button>
+  </header>
+
+  <main id="cart-container"></main>
+
+  <!-- Confirmation modal for product added -->
+  <div id="confirmation-modal" class="confirmation-modal">
+    <div class="confirmation-content">
+      <p id="confirmation-text">Product added to cart. Continue browsing or go to cart?</p>
+      <button onclick="continueBrowsing()">Continue Browsing</button>
+      <button onclick="goToCart()">Go to Cart</button>
+    </div>
+  </div>
+
+  <!-- Login Required Modal -->
+  <div id="login-required-modal" class="login-required-modal">
+    <div class="login-required-content">
+      <p>You must be logged in to place an order. Please log in to continue.</p>
+      <button onclick="goToLogin()">Log In</button>
+      <button onclick="dismissLoginModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    // Helper – parsuje np. "$79.99" do liczby
+    function parsePrice(price) {
+      if (typeof price === "string") {
+        return parseFloat(price.replace("$", ""));
+      }
+      return price;
+    }
+    
+    function renderCart() {
+      const cartContainer = document.getElementById("cart-container");
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cartContainer.innerHTML = "";
+  
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+      } else {
+        let total = 0;
+        cart.forEach((item, index) => {
+          const itemPrice = parsePrice(item.price);
+          total += itemPrice;
+          const section = document.createElement("section");
+          section.className = "cart-item";
+          section.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <p>${item.name} ${item.size ? "(" + item.size + ")" : ""} - $${itemPrice.toFixed(2)}</p>
+            <button onclick="removeItem(${index})">Remove</button>
+          `;
+          cartContainer.appendChild(section);
+        });
+  
+        const totalEl = document.createElement("p");
+        totalEl.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
+        cartContainer.appendChild(totalEl);
+  
+        // Przycisk "Place an order" – przed złożeniem sprawdzamy, czy użytkownik jest zalogowany.
+        const checkoutBtn = document.createElement("button");
+        checkoutBtn.textContent = "Place an order";
+        checkoutBtn.onclick = () => {
+          const loggedUser = localStorage.getItem("loggedUser");
+          if (!loggedUser) {
+            showLoginRequiredModal();
+            return;
+          }
+          // Zapisujemy zamówienie pod indywidualnym kluczem dla użytkownika.
+          const ordersKey = "orders_" + loggedUser;
+          const orders = JSON.parse(localStorage.getItem(ordersKey)) || [];
+          const orderDate = new Date().toLocaleString();
+          orders.push({ items: cart, date: orderDate });
+          localStorage.setItem(ordersKey, JSON.stringify(orders));
+          localStorage.removeItem("cart");
+          alert("Your order has been placed!");
+          location.href = "orders.html?view=latest";
+        };
+        cartContainer.appendChild(checkoutBtn);
+      }
+    }
+    
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+    
+    function continueBrowsing() {
+      document.getElementById("confirmation-modal").style.display = "none";
+    }
+    
+    function goToCart() {
+      location.href = "cart.html";
+    }
+    
+    // Confirmation modal – teraz bez auto-zamykania
+    function showAddConfirmation(productName) {
+      const confModal = document.getElementById("confirmation-modal");
+      const confText = document.getElementById("confirmation-text");
+      confText.textContent = productName + " has been added to the cart. Continue browsing or go to cart?";
+      confModal.style.display = "flex";
+      // Auto zamknięcie zostało usunięte – modal pozostaje widoczny, aż użytkownik wybierze opcję.
+    }
+    
+    // Modal wymagający logowania
+    function showLoginRequiredModal() {
+      const loginModal = document.getElementById("login-required-modal");
+      loginModal.style.display = "flex";
+      // Auto zamknięcia nie stosujemy – użytkownik sam musi kliknąć Cancel lub Log In.
+    }
+    
+    function goToLogin() {
+      location.href = "login.html";
+    }
+    
+    function dismissLoginModal() {
+      document.getElementById("login-required-modal").style.display = "none";
+    }
+    
+    document.addEventListener("DOMContentLoaded", renderCart);
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
